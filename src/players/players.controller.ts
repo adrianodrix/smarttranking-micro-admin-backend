@@ -7,7 +7,7 @@ import {
   RmqContext,
   RpcException,
 } from '@nestjs/microservices';
-import { PlayerEvents } from 'src/categories/interfaces/player-events.enum';
+import { PlayerEvents } from 'src/players/interfaces/player-events.enum';
 import { BadRequestError } from 'src/common/errors/bad-request.error';
 import { DuplicateKeyError } from 'src/common/errors/DuplicateKeyError.error';
 import { NotFoundError } from 'src/common/errors/not-found.error';
@@ -90,10 +90,13 @@ export class PlayersController {
     const originalMessage = context.getMessage();
 
     try {
-      const { id, email } = data;
+      const { id, ids, email } = data;
 
       if (id) {
         return await this.service.findById(id);
+      }
+      if (ids) {
+        return await this.service.findByListIds(ids);
       }
       if (email) {
         return await this.service.findByEmail(email);

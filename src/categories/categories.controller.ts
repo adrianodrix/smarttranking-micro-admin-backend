@@ -39,14 +39,20 @@ export class CategoriesController {
   }
 
   @MessagePattern(CategoryEvents.FIND)
-  async find(@Payload() id: string, @Ctx() context: RmqContext) {
-    this.logger.log(`find: ${id}`);
+  async find(@Payload() data: any, @Ctx() context: RmqContext) {
+    this.logger.log(`find: ${data}`);
     const channel = context.getChannelRef();
     const originalMessage = context.getMessage();
 
     try {
-      if (id) {
-        return await this.service.findOne(id);
+      if (typeof data === 'string') {
+        return await this.service.findOne(data);
+      }
+      if (typeof data === 'object') {
+        const { playerId } = data;
+        if (playerId) {
+          return await this.service.getCategoryByPlayer(playerId);
+        }
       }
       return await this.service.findAll();
     } finally {

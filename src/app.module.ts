@@ -3,10 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n';
 import { join } from 'path';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { Category, CategorySchema } from './entities/category.entity';
-import { Player, PlayerSchema } from './entities/player.entity';
+import { CategoriesModule } from './categories/categories.module';
+import { PlayersModule } from './players/players.module';
 
 @Module({
   imports: [
@@ -24,12 +22,8 @@ import { Player, PlayerSchema } from './entities/player.entity';
       useUnifiedTopology: true,
       useFindAndModify: false,
     }),
-    MongooseModule.forFeature([
-      { name: Player.name, schema: PlayerSchema },
-      { name: Category.name, schema: CategorySchema },
-    ]),
+    CategoriesModule,
+    PlayersModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

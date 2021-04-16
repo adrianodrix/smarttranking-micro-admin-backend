@@ -1,12 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
-import {
-  ICategory,
-  IEvent,
-} from 'src/interfaces/categories/category.interface';
-import { IPlayer } from 'src/interfaces/players/player.interface';
-import { Player } from './player.entity';
+import { IPlayer } from 'src/players/interfaces/player.interface';
+import { Player } from '../../players/entities/player.entity';
+import { ICategory, IEvent } from '../interfaces/category.interface';
 
 @Schema({ timestamps: true })
 export class Category implements ICategory {
